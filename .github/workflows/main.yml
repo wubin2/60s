@@ -1,0 +1,15 @@
+name: Sync Fork
+on:
+  schedule:
+    - cron: '0 0 * * *'
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: wubin2/60s@master
+      - name: Sync with upstream
+        uses: vikiboss/60s@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: master
+          force: true
