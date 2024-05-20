@@ -6,7 +6,7 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      - uses: wubin2/60s@master
+      - uses: wubin2/60s@main
       - name: Sync with upstream
         uses: vikiboss/60s@master
         with:
