@@ -8,7 +8,7 @@ jobs:
     steps:
       - uses: wubin2/60s@main
       - name: Sync with upstream
-        uses: vikiboss/60s@master
+        uses: vikiboss/60s@main
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: master
