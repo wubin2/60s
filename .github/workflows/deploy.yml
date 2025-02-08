@@ -29,13 +29,13 @@ jobs:
           node-version: lts/*
 
       - name: Install step
-        run: "deno install && deno run -A deno.ts"
+        run: "deno install"
 
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
         with:
-          project: "tristan-60s-12"
-          entrypoint: "deno.ts"
+          project: "tristan-60s-37"
+          entrypoint: "deno run -A deno.ts"
           root: ""
           
           
