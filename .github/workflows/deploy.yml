@@ -35,7 +35,7 @@ jobs:
         uses: denoland/deployctl@v1
         with:
           project: "tristan-60s-37"
-          entrypoint: "deno run -A deno.ts"
+          entrypoint: "deno.ts"
           root: ""
           
           
