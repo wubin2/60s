@@ -1,7 +1,8 @@
 # ⏰ 60s API v2
 
-一系列 **高质量、开源、可靠、全球 CDN 加速的** 开放 API 集合，使用 [Deno](https://deno.com/) 构建，托管在 [Deno Deploy](https://deno.com/deploy) 上，也支持 [Cloudflare Workers](https://www.cloudflare.com/zh-cn/developer-platform/products/workers/)、[Bun](https://bun.sh/) 和 [Node.js](https://nodejs.org/) 部署。
+一系列 **高质量、开源、可靠、全球 CDN 加速的** 开放 API 集合，使用 [Deno](https://deno.com/) 构建，托管在 [Deno Deploy](https://deno.com/deploy) 上，也支持 [Docker](https://docker.com)、[Cloudflare Workers](https://www.cloudflare.com/zh-cn/developer-platform/products/workers/)、[Bun](https://bun.sh/) 和 [Node.js](https://nodejs.org/) 部署。
 
+> [!WARNING]
 > v1 版本已于 2025/1/15 停止更新，在 [v1-legacy](https://github.com/vikiboss/60s/tree/v1-legacy) 分支上，请尽快迁移至 v2 版本，v1 版本将于 2025/6/31 完全停止服务，届时域名会切换到 v2 版本。
 
 ## 🤔️ 起因
@@ -18,12 +19,18 @@
 
 ## 🍱 API 包含哪些？
 
-目前包含的接口如下，仍在持续增加中...
+目前包含的接口如下，仍在持续增加中，全面的 API 文档已公开托管在 [Apifox](https://docs.60s-api.viki.moe) 上。
 
-> 可直接访问 https://60s-api.viki.moe (备用域名 https://60s-api.114128.xyz) 查看所有可用的 API Endpoints。
+主域名: https://60s-api.viki.moe （Deno Deploy，部分地区可能被墙）
+
+> - 备用域名 1: https://60s.b23.run (Deno Deploy)
+> - 备用域名 2: https://60s-api-cf.viki.moe (CF Workers)
+> - 备用域名 3: https://60s-api.114128.xyz (Deno Deploy)
+> - 备用域名 4: https://60s-api-cf.114128.xyz  (CF Workers)
+
 
 - ⏰ 日更资讯
-  - 🌍 每天 60 秒读懂世界
+  - 🌍 每天 60 秒读懂世界 (数据源来自微信公众号，凌晨更新)
   - 🏞️ 必应每日壁纸（Bing）
   - 💰 当日货币汇率
   - 📅 历史上的今天
@@ -43,20 +50,20 @@
 - 😄 消遣娱乐
   - 💬 随机一言
   - ✨ 随机运势
+  - ⚛️ 随机化合物
   - 🎤 随机唱歌音频
   - 🤣 随机搞笑段子
   - 🤭 随机发病文学
   - 📖 随机答案之书
 - ... 更多功能持续增加中
 
-## 🧩 API 文档
-
-API 文档已公开托管在 [Apifox](https://docs.60s-api.viki.moe) 上，可在线调试、生成业务代码、查看接口参数等。
-
-- 主域名: https://60s-api.viki.moe （部分地区可能被墙）
-- 备用域名: https://60s-api.114128.xyz
-
 ## 💻 本地部署
+
+### Docker
+
+```bash
+docker run --name 60s -p 4399:4399 -d vikiboss/60s:latest
+```
 
 ### Deno
 
@@ -81,7 +88,7 @@ npm install && node --experimental-strip-types node.ts
 ### Cloudflare Workers
 
 ```bash
-wrangler publish
+npm install && npx wrangler publish
 ```
 
 ## 🧑‍🤝‍🧑 用户群
@@ -95,8 +102,8 @@ wrangler publish
 > 采取**自愿**原则, 收到的赞赏将用于提高开发者积极性和开发环境。
 
 <div id='readme-reward' style="display: flex; gap: 8px; flex-wrap: wrap; width: 100%">
-  <img src="https://smms.viki.moe/2022/11/16/X2kFMdaxvSc1V5P.jpg" alt="wxpay" height="160px"style="margin: 24px;"/>
-  <img src="https://smms.viki.moe/2022/11/16/vZ4xkCopKRmIFVX.jpg" alt="alipay" height="160px" style="margin:24px;"/>
+  <img src="https://s2.loli.net/2022/11/16/X2kFMdaxvSc1V5P.jpg" alt="wxpay" height="160px"style="margin: 24px;"/>
+  <img src="https://s2.loli.net/2022/11/16/vZ4xkCopKRmIFVX.jpg" alt="alipay" height="160px" style="margin:24px;"/>
 </div>
 
 ## 🪪 License （开源协议）
