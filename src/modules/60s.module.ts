@@ -6,7 +6,7 @@ class Service60s {
   #cache = new Map<string, DailyNewsItem>()
 
   handle(): RouterMiddleware<'/60s'> {
-    return async (ctx) => {
+    return async ctx => {
       const data = await this.#fetch()
 
       switch (ctx.state.encoding) {
@@ -30,16 +30,24 @@ class Service60s {
     return `https://raw.githubusercontent.com/vikiboss/60s-static-host/refs/heads/main/static/60s/${date}.json`
   }
 
+  getVercelUrl(date: string): string {
+    return `https://60s-static.viki.moe/60s/${date}.json`
+  }
+
+  getJsDelivrUrl(date: string): string {
+    return `https://cdn.jsdelivr.net/gh/vikiboss/60s-static-host/static/60s/${date}.json`
+  }
+
   async tryUrl(date: string) {
     const response = await fetch(this.getUrl(date))
+      .catch(() => fetch(this.getVercelUrl(date)))
+      .catch(() => fetch(this.getJsDelivrUrl(date)))
 
     if (response.ok) {
       const now = Date.now()
       const data = await response.json()
 
-      if (!data?.news?.length || !data?.tip || !data?.audio?.news) {
-        return null
-      }
+      if (!data?.news?.length) return null
 
       return {
         ...data,
