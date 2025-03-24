@@ -50,6 +50,7 @@
   - 🐦 链接 [OG](https://ogp.me/) 信息
   - 🌈 哈希/解压/压缩（包含 `md5`、`base64`、`URL`、`GZIP` 等）
 - 😄 消遣娱乐
+  - 💬 随机 KFC 段子（数据来源 [vikiboss/v50](https://github.com/vikiboss/v50)）
   - 💬 随机一言
   - ✨ 随机运势
   - ⚛️ 随机化合物
@@ -96,6 +97,10 @@ npm install && node --experimental-strip-types node.ts
 ```bash
 npm install && npx wrangler publish
 ```
+
+## 60s 的数据更新策略
+
+![arch](./images/arch.png)
 
 ## 🧑‍🤝‍🧑 用户群
 
