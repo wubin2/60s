@@ -5,7 +5,7 @@
 一系列 **高质量、开源、可靠、全球 CDN 加速的** 开放 API 集合，使用 [Deno](https://deno.com/) 构建，托管在 [Deno Deploy](https://deno.com/deploy) 上，也支持 [Docker](https://docker.com)、[Cloudflare Workers](https://www.cloudflare.com/zh-cn/developer-platform/products/workers/)、[Bun](https://bun.sh/) 和 [Node.js](https://nodejs.org/) 部署。
 
 > [!WARNING]
-> v1 版本已于 2025/1/15 停止更新，在 [v1-legacy](https://github.com/vikiboss/60s/tree/v1-legacy) 分支上，请尽快迁移至 v2 版本，v1 版本将于 2025/6/31 完全停止服务，届时域名会切换到 v2 版本。
+> v1 版本已于 2025/1/15 停止更新，在 [v1-legacy](https://github.com/vikiboss/60s/tree/v1-legacy) 分支上，请尽快迁移至 v2，v1 版本将于 2025/6/31 完全停止服务，届时域名会切换到 v2 版本。
 
 ## 🤔️ 缘起
 
@@ -25,13 +25,20 @@
 
 主域名: https://60s-api.viki.moe （Deno Deploy，部分地区可能被墙）
 
-> - 备用域名 1: https://60s.b23.run (Deno Deploy)
-> - 备用域名 2: https://60s-api-cf.viki.moe (CF Workers)
-> - 备用域名 3: https://60s-api.114128.xyz (Deno Deploy)
-> - 备用域名 4: https://60s-api-cf.114128.xyz  (CF Workers)
+> [!TIP]
+> 
+> 如果你只关注 60s，API 格式如下：
+>
+> 默认 JSON 格式：https://60s-api.viki.moe/v2/60s
+> 
+> 文字版本：https://60s-api.viki.moe/v2/60s?encoding=text
+> 
+> 图片版本：https://60s-api.viki.moe/v2/60s?encoding=image
+> 
+> 更多详情请看文档: https://docs.60s-api.viki.moe, 如果对你有帮助，请不要吝啬你的 Star～
 
 - ⏰ 日更资讯
-  - 🌍 每天 60 秒读懂世界 (数据源来自微信公众号，凌晨更新)
+  - 🌍 每天 60 秒读懂世界 (数据源来自 [60s-static-host](https://github.com/vikiboss/60s-static-host) 仓库，正常情况下，每天凌晨更新)
   - 🏞️ 必应每日壁纸（Bing）
   - 💰 当日货币汇率
   - 📅 历史上的今天
