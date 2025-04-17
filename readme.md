@@ -27,7 +27,7 @@
 
 > [!TIP]
 > 
-> 如果你只关注 60s，API 格式如下：
+> 如果你只关注 60s 新闻，其 API 格式如下：
 >
 > 默认 JSON 格式：https://60s-api.viki.moe/v2/60s
 > 
@@ -38,7 +38,7 @@
 > 更多详情请看文档: https://docs.60s-api.viki.moe, 如果对你有帮助，请不要吝啬你的 Star～
 
 - ⏰ 日更资讯
-  - 🌍 每天 60 秒读懂世界 (数据源来自 [60s-static-host](https://github.com/vikiboss/60s-static-host) 仓库，正常情况下，每天凌晨更新)
+  - 🌍 每天 60 秒读懂世界 (数据源来自 [vikiboss/60s-static-host](https://github.com/vikiboss/60s-static-host) 仓库，源头是微信公众号，正常情况下每天凌晨更新)
   - 🏞️ 必应每日壁纸（Bing）
   - 💰 当日货币汇率
   - 📅 历史上的今天
@@ -123,6 +123,29 @@ npm install && npx wrangler publish
   <img src="https://s2.loli.net/2022/11/16/X2kFMdaxvSc1V5P.jpg" alt="wxpay" height="160px"style="margin: 24px;"/>
   <img src="https://s2.loli.net/2022/11/16/vZ4xkCopKRmIFVX.jpg" alt="alipay" height="160px" style="margin:24px;"/>
 </div>
+
+感谢以下小伙伴的赞赏（排名不分先后）：
+
+<!-- 表格 -->
+|           赞赏人           | 金额  |  途径  |        备注        |
+| :------------------------: | :---: | :----: | :----------------: |
+|           Update           | 6.66  | WeChat | 感谢大佬的开源分享 |
+|            匿名            | 0.01  | WeChat |         -          |
+|         月夜忆江南         | 5.00  | WeChat |         -          |
+|            匿名            | 1.66  | WeChat |         -          |
+|        GoooodJooB7         | 1.66  | WeChat |    谢谢大佬开源    |
+|            匿名            | 1.66  | WeChat |         -          |
+| 十七岁就学会吃饭的天才少年 | 5.00  | WeChat |         -          |
+|          Sundrops          | 1.66  | WeChat |   感谢友友的接口   |
+|        春风伴我余生        | 10.00 | WeChat |         -          |
+|             杰             | 1.00  | WeChat |         -          |
+|            ---             |  ---  |  ---   |        ---         |
+|            *斌             | 12.90 | Alipay |         -          |
+|            *杰             | 20.00 | Alipay |         -          |
+|            **杰            | 9.90  | Alipay |         -          |
+|            ---             |  ---  |  ---   |        ---         |
+|            Ko.             | 11.66  |   QQ   |         -          |
+
 
 ## 🪪 License （开源协议）
 
