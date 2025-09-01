@@ -19,8 +19,14 @@ class ServiceFanyi {
         return
       }
 
-      const from = ctx.request.url.searchParams.get('from') || 'auto'
-      const to = ctx.request.url.searchParams.get('to') || 'auto'
+      const from = (await Common.getParam('from', ctx.request)) || 'auto'
+      const to = (await Common.getParam('to', ctx.request)) || 'auto'
+
+      if (!this.isLangValid(from, to)) {
+        ctx.response.status = 400
+        ctx.response.body = Common.buildJson(null, 400, '不支持的语言类型，请通过 /fanyi/langs 接口查询支持的语言类型')
+        return
+      }
 
       const data = await this.#fetch(text, from, to)
       const isSuccess = data.code === 0
@@ -55,6 +61,10 @@ class ServiceFanyi {
           break
       }
     }
+  }
+
+  isLangValid(from: string, to: string) {
+    return (from === 'auto' || langMap[from]) && (to === 'auto' || langMap[to])
   }
 
   langs(): RouterMiddleware<'/fanyi/langs'> {
