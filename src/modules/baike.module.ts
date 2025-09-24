@@ -8,8 +8,7 @@ class ServiceBaike {
       const word = await Common.getParam('word', ctx.request)
 
       if (!word) {
-        Common.requireArguments('word', ctx)
-        return
+        return Common.requireArguments('word', ctx)
       }
 
       try {
@@ -32,20 +31,25 @@ class ServiceBaike {
     }
   }
 
-  async #fetch(item: string) {
+  async #fetchRaw(item: string) {
     const api = new URL('https://baike.baidu.com/api/openapi/BaikeLemmaCardApi')
 
-    api.searchParams.set('scope', '103')
-    api.searchParams.set('format', 'json')
     api.searchParams.set('appid', '379020')
     api.searchParams.set('bk_key', item)
-    api.searchParams.set('bk_length', '100')
 
     const data = (await (await fetch(api)).json()) as BaikeData
 
     if (!data?.title) {
       throw new Error('未找到相关词条')
     }
+
+    return data
+  }
+
+  async #fetch(item: string) {
+    const data = await this.#fetchRaw(item)
+      .catch(() => this.#fetchRaw(item))
+      .catch(() => this.#fetchRaw(item))
 
     return {
       title: data.title,

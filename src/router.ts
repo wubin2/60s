@@ -1,7 +1,5 @@
-import pkg from '../package.json' with { type: 'json' }
-
 import { Router } from '@oak/oak/router'
-import { config } from './config.ts'
+import { Common } from './common.ts'
 
 import { service60s } from './modules/60s.module.ts'
 import { serviceAINews } from './modules/ai-news.module.ts'
@@ -42,37 +40,31 @@ import { serviceHealth } from './modules/health.module.ts'
 import { servicePassword } from './modules/password/password.module.ts'
 import { serviceColor } from './modules/color.module.ts'
 import { serviceKuan } from './modules/kuan.module.ts'
+
 // import { serviceSlackingCalendar } from './modules/slacking-calendar/slacking-calendar.module.ts'
 
 export const rootRouter = new Router()
 
 rootRouter.get('/', (ctx) => {
   ctx.response.headers.set('Content-Type', 'application/json; charset=utf-8')
-  ctx.response.body = JSON.stringify(
-    {
-      api_name: '60s-api',
-      api_version: pkg.version,
-      api_docs: 'https://docs.60s-api.viki.moe',
-      author: config.author,
-      user_group: config.group,
-      github_repo: config.github,
-      updated: pkg.updateTime,
-      updated_at: new Date(pkg.updateTime).getTime(),
-      endpoints: Array.from(appRouter.entries(), ([_, v]) => v.path),
-    },
-    null,
-    2,
-  )
+  const endpoints = Array.from(appRouter.entries(), ([_, v]) => v.path)
+  ctx.response.body = JSON.stringify({ ...Common.getApiInfo(), endpoints }, null, 2)
 })
 
 rootRouter.get('/health', (ctx) => {
   ctx.response.body = 'ok'
 })
 
+rootRouter.get('/endpoints', (ctx) => {
+  ctx.response.headers.set('Content-Type', 'application/json; charset=utf-8')
+  ctx.response.body = Array.from(appRouter.entries(), ([_, v]) => v.path)
+})
+
 export const appRouter = new Router({
   prefix: '/v2',
 })
 
+// === 以下为已发布的正式接口 ===
 appRouter.get('/60s', service60s.handle())
 appRouter.get('/answer', serviceAnswer.handle())
 appRouter.get('/baike', serviceBaike.handle())
@@ -83,14 +75,12 @@ appRouter.get('/chemical', serviceChemical.handle())
 appRouter.get('/douyin', serviceDouyin.handle())
 appRouter.get('/duanzi', serviceDuanzi.handle())
 appRouter.get('/epic', serviceEpic.handle())
-appRouter.get('/exchange_rate', serviceExRate.handle()) // 兼容保留
 appRouter.get('/exchange-rate', serviceExRate.handle())
 appRouter.get('/fabing', serviceFabing.handle())
 appRouter.get('/hitokoto', serviceHitokoto.handle())
 appRouter.get('/ip', serviceIP.handle())
 appRouter.get('/kfc', serviceKfc.handle())
 appRouter.get('/luck', serviceLuck.handle())
-appRouter.get('/today_in_history', serviceTodayInHistory.handle()) // 兼容保留
 appRouter.get('/today-in-history', serviceTodayInHistory.handle())
 appRouter.get('/toutiao', serviceToutiao.handle())
 appRouter.get('/weibo', serviceWeibo.handle())
@@ -100,43 +90,53 @@ appRouter.get('/ai-news', serviceAINews.handle())
 appRouter.get('/awesome-js', serviceAwesomeJs.handle())
 appRouter.get('/qrcode', serviceQRCode.handle())
 appRouter.get('/dad-joke', serviceDadJoke.handle())
-appRouter.get('/hacker-news/:type', serviceHackerNews.handle())
 appRouter.get('/rednote', serviceRednote.handle())
 appRouter.get('/dongchedi', serviceDongchedi.handle())
 
-appRouter.all('/health', serviceHealth.handle())
+appRouter.get('/health', serviceHealth.handle())
+appRouter.get('/password', servicePassword.handle())
+appRouter.get('/password/check', servicePassword.handleCheck())
 
-appRouter.all('/password', servicePassword.handle())
-appRouter.all('/password/check', servicePassword.handleCheck())
-
-appRouter.get('/maoyan', serviceMaoyan.handleAllMovie()) // 兼容保留
 appRouter.get('/maoyan/all/movie', serviceMaoyan.handleAllMovie())
 appRouter.get('/maoyan/realtime/movie', serviceMaoyan.handleRealtime('movie'))
 appRouter.get('/maoyan/realtime/tv', serviceMaoyan.handleRealtime('tv'))
 appRouter.get('/maoyan/realtime/web', serviceMaoyan.handleRealtime('web'))
 
-appRouter.get('/baidu/realtime', serviceBaidu.handleHotSearch()) // 兼容保留
+appRouter.get('/hacker-news/new', serviceHackerNews.handle('top'))
+appRouter.get('/hacker-news/top', serviceHackerNews.handle('top'))
+appRouter.get('/hacker-news/best', serviceHackerNews.handle('best'))
+
 appRouter.get('/baidu/hot', serviceBaidu.handleHotSearch())
 appRouter.get('/baidu/teleplay', serviceBaidu.handleTeleplay())
 appRouter.get('/baidu/tieba', serviceBaidu.handleTieba())
 
-appRouter.all('/og', serviceOG.handle())
-appRouter.all('/hash', serviceHash.handle())
-// appRouter.get('/slacking-calendar', serviceSlackingCalendar.handle())
-
-appRouter.all('/fanyi', serviceFanyi.handle())
-appRouter.all('/fanyi/langs', serviceFanyi.langs())
-
-appRouter.get('/weather', serviceWeather.handle()) // 兼容保留
 appRouter.get('/weather/realtime', serviceWeather.handle())
 appRouter.get('/weather/forecast', serviceWeather.handleForecast())
 
-appRouter.get('/ncm-rank', serviceNcm.handleRank()) // 兼容保留
-appRouter.get('/ncm-rank/all', serviceNcm.handleRank())
+appRouter.get('/ncm-rank/list', serviceNcm.handleRank())
 appRouter.get('/ncm-rank/:id', serviceNcm.handleRankDetail())
 
-appRouter.all('/color', serviceColor.handle()) // 兼容保留
-appRouter.all('/color/random', serviceColor.handle())
-appRouter.all('/color/palette', serviceColor.handlePalette())
+appRouter.get('/color/random', serviceColor.handle())
+appRouter.get('/color/palette', serviceColor.handlePalette())
 
+// === 以下为支持 body 解析参数的接口 ===
+appRouter.all('/og', serviceOG.handle())
+appRouter.all('/hash', serviceHash.handle())
+
+appRouter.all('/fanyi', serviceFanyi.handle())
+appRouter.all('/fanyi/langs', serviceFanyi.handleLangs())
+
+// === 以下为测试接口，beta 前缀，接口可能不稳定 ===
 appRouter.get('/beta/kuan', serviceKuan.handle())
+
+// === 以下为待定接口，还在计划、开发中 ===
+// appRouter.get('/slacking-calendar', serviceSlackingCalendar.handle())
+
+// === 以下接口为兼容保留，未来大版本移除 ===
+appRouter.get('/exchange_rate', serviceExRate.handle())
+appRouter.get('/today_in_history', serviceTodayInHistory.handle())
+appRouter.get('/maoyan', serviceMaoyan.handleAllMovie())
+appRouter.get('/baidu/realtime', serviceBaidu.handleHotSearch())
+appRouter.get('/weather', serviceWeather.handle())
+appRouter.get('/ncm-rank', serviceNcm.handleRank())
+appRouter.get('/color', serviceColor.handle())
