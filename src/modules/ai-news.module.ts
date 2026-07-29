@@ -12,7 +12,7 @@ class ServiceAINews {
       const all = ctx.request.url.searchParams.has('all')
       const data = await this.#fetch(date, all)
 
-      const isToday = !date || date === Common.localeDate(Date.now()).replace(/\//g, '-')
+      const isToday = date === Common.localeDate(Date.now()).replace(/\//g, '-')
 
       switch (ctx.state.encoding) {
         case 'text': {
@@ -50,8 +50,8 @@ class ServiceAINews {
   }
 
   async #fetch(date?: string | null, all = false): Promise<AINewsItem> {
-    const today = date || Common.localeDate(Date.now()).replace(/\//g, '-')
-    const cacheKey = all ? 'all' : today
+    const yesterday = date || Common.localeDate(Date.now() - 24 * 60 * 60 * 1000).replace(/\//g, '-')
+    const cacheKey = all ? 'all' : yesterday
     const cachedItem = this.#cache.get(cacheKey)
 
     try {
@@ -64,7 +64,7 @@ class ServiceAINews {
       }
 
       const html = await response.text()
-      const data = this.parseHTML(html, today, all)
+      const data = this.parseHTML(html, yesterday, all)
 
       this.#cache.set(cacheKey, data)
       return data
@@ -119,11 +119,14 @@ class ServiceAINews {
 
     const news = this.#correctDate(rawNews)
 
+    console.log(news)
+
     if (all) {
       filteredNews = news
     } else if (requestDate) {
       // 直接使用标准化日期进行匹配
       filteredNews = news.filter((item) => item.date === requestDate)
+      console.log(requestDate, filteredNews)
     }
 
     return {
@@ -133,6 +136,10 @@ class ServiceAINews {
   }
 
   #correctDate(items: NewsItem[]): NewsItem[] {
+    // 2026-07-28 更新：源头数据只留下了 2026 的新闻，无需处理
+    return items
+
+    // 2026-03-06 更新：源头数据只有日期，没有年份，进行定向时间纠正
     const lastTitleIn2025 = 'Kimi 完成 5 亿美元新融资'
     const lastTitleIdx2025 = items.findIndex((item) => item.title === lastTitleIn2025)
 
