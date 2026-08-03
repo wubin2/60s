@@ -7,11 +7,12 @@ interface BingItem {
   headline: string
   description: string
   cover: string
+  cover_4k: string
   main_text: string
   copyright: string
   update_date: string
+  update_date_at: number
 }
-
 class ServiceBing {
   #cache = new Map<string, BingItem>()
 
@@ -36,6 +37,10 @@ class ServiceBing {
 
         case 'image':
           ctx.response.redirect(data.cover || '')
+          break
+
+        case 'image-4k':
+          ctx.response.redirect(data.cover_4k || '')
           break
 
         case 'json':
